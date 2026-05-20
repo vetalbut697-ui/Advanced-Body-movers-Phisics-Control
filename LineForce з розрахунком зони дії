@@ -1,0 +1,33 @@
+local metalObject = script.Parent
+local lineForce = metalObject:FindFirstChildOfClass("LineForce")
+
+-- Шукаємо другий аттачмент, до якого ми прив'язані
+local magnetAnchor = lineForce.Attachment1 
+
+-- НАЛАШТУВАННЯ МАГНІТУ
+local MAX_MAGNET_DISTANCE = 10 -- Радіус дії магнітного поля (у студах)
+local FORCE_POWER = metalObject:GetMass() * 600 -- Сила притягання
+
+-- На старті все вимкнено
+lineForce.Magnitude = 0
+
+-- Головний цикл перевірки відстані
+while true do
+	task.wait(0.1) -- Перевіряємо 10 разів на секунду (цього достатньо для фізики)
+
+	if magnetAnchor then
+		-- Рахуємо чисту відстань між двома аттачментами
+		local distance = (metalObject.Position - magnetAnchor.Parent.Position).Magnitude
+
+		-- Перевіряємо, чи входить кулька в зону дії магніту
+		if distance <= MAX_MAGNET_DISTANCE then
+			-- КУЛЬКА БЛИЗЬКО: вмикаємо магніт
+			lineForce.Magnitude = FORCE_POWER
+			metalObject.BrickColor = BrickColor.new("Bright red") -- Візуально показуємо, що магніт схопив її
+		else
+			-- КУЛЬКА ДАЛЕКО: магніт не дістає
+			lineForce.Magnitude = 0
+			metalObject.BrickColor = BrickColor.new("Medium stone grey") -- Спокій
+		end
+	end
+end
