@@ -1,0 +1,28 @@
+local rocket = script.Parent
+local vectorForce = rocket:FindFirstChildOfClass("VectorForce")
+
+-- Дамо грі 3 секунди повністю завантажити фізику об'єктів
+task.wait(3)
+print("🚀 Запуск двигунів!")
+
+-- 1. Розрахунок сили для подолання гравітації за допомогою :GetMass()
+local mass = rocket:GetMass() -- Надійний спосіб отримати масу однієї деталі
+local gravity = workspace.Gravity 
+
+-- Рахуємо силу балансу
+local counterGravityForce = mass * gravity
+
+-- Додаємо силу для польоту вгору
+local totalUpwardForce = counterGravityForce + 500
+
+vectorForce.RelativeTo = Enum.ActuatorRelativeTo.World--на які вісі обертання орієнтуватись, якщо треба щоб сла поверталась разом з об'єктом то замість World треба писати Attachment0
+
+-- 2. Прикладаємо силу
+vectorForce.Force = Vector3.new(0, totalUpwardForce, 0)
+
+-- Чекаємо 4 секунди польоту
+task.wait(4)
+print("💥 Паливо закінчилося! Вимикаємо двигуни.")
+
+-- 3. Глушимо двигун
+vectorForce.Force = Vector3.new(0, 0, 0)
