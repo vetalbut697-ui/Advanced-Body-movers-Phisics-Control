@@ -1,0 +1,24 @@
+local metalObject = script.Parent
+local lineForce = metalObject:FindFirstChildOfClass("LineForce")
+
+-- Наше залізне правило: на старті магніт вимкнено
+lineForce.Magnitude = 0
+
+print("🧲 Магніт розряджений. Чекаємо 3 секунди...")
+task.wait(3)
+
+-- Рахуємо силу. Оскільки кулька просто котиться по землі, 
+-- нам не обов'язково долати всю гравітацію світу, але сила має бути помітною.
+local mass = metalObject:GetMass()
+local magnetPower = mass * 500 -- Створюємо потужне магнітне поле
+
+-- Запускаємо силу притягання
+lineForce.Magnitude = magnetPower
+print("⚡ МЕТАЛ ПРИТЯГУЄТЬСЯ!")
+
+-- Чекаємо 4 секунди, поки кулька приліпиться до магніту
+task.wait(4)
+
+-- Вимикаємо магніт
+lineForce.Magnitude = 0
+print("❌ Магніт вимкнено. Кулька вільна.")
