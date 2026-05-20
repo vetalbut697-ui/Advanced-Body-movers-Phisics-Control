@@ -1,0 +1,17 @@
+local spinner = script.Parent
+local angularVelocity = spinner:FindFirstChildOfClass("AngularVelocity")
+
+-- Твоє золоте правило: обнуляємо швидкість на старті геймплею
+angularVelocity.AngularVelocity = Vector3.new(0, 0, 0)
+
+print("⏳ Готуємо пастку... Обертання вимкнено.")
+task.wait(2)
+
+-- Налаштовуємо швидкість обертання
+-- Нам потрібно, щоб деталь крутилася навколо вертикальної осі Y
+local rotationSpeed = -3 -- Швидкість у радіанах (3 радіани — це приблизно половина повного кола за секунду)
+
+-- Запускаємо мотор! Тиснемо на другу позицію (Y)
+angularVelocity.AngularVelocity = Vector3.new(0, rotationSpeed, 0)
+
+print("🔄 Пастка активована! Спробуй пройти!")
